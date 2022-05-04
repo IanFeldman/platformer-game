@@ -18,9 +18,9 @@ SpriteComponent::~SpriteComponent()
 	mOwner->GetGame()->RemoveSprite(this);
 }
 
+/*
 // we should be drawing in renderer
-void SpriteComponent::Draw(SDL_Renderer* renderer)
-{
+void SpriteComponent::Draw(Renderer* renderer) {
 	Vector2 ownerPos = mOwner->GetPosition();
     int w = static_cast<int>(mTexWidth * mOwner->GetScale());
     int h = static_cast<int>(mTexHeight * mOwner->GetScale());
@@ -28,9 +28,8 @@ void SpriteComponent::Draw(SDL_Renderer* renderer)
     int x = static_cast<int>(ownerPos.x - w / 2);
     int y = static_cast<int>(ownerPos.y - h / 2 );
 
-    mOwner->GetGame()->GetRenderer()->DrawTexture(mTexture, w, h, x, y);
+    renderer->DrawTexture(mTexture, w, h, x, y);
     
-    /*
     OLD DRAWING
 	SDL_Point windowSize = mOwner->GetGame()->GetRenderer()->GetWindowSize();
 
@@ -58,8 +57,8 @@ void SpriteComponent::Draw(SDL_Renderer* renderer)
 			nullptr,
 			SDL_FLIP_NONE);
 	}
-    */
 }
+*/
 
 void SpriteComponent::SetTexture(SDL_Texture* texture)
 {

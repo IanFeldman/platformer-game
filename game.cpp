@@ -1,7 +1,8 @@
 #include "actor.h"
 #include "game.h"
-#include "spritecomponent.h"
+#include "player.h"
 #include "renderer.h"
+#include "spritecomponent.h"
 #include <SDL2/SDL.h>
 
 Game::Game()
@@ -18,7 +19,13 @@ bool Game::Initialize() {
     // set previous time
     mPrevTime = SDL_GetTicks();
     
+    LoadData();
     return true;
+}
+
+void Game::LoadData() {
+    mPlayer = new Player(this);
+    mPlayer->SetPosition(Vector2(400, 250));
 }
 
 void Game::RunLoop() {
@@ -66,9 +73,6 @@ void Game::Update() {
     float deltaTime = (float)(currentTime - mPrevTime) / 1000;
     mPrevTime = currentTime;
 
-    // clear screen
-    mRenderer->ClearScreen();
-
     // update actors
     // calls onupdate and updates all components
     std::vector<Actor*> actors = mActors;
@@ -89,17 +93,44 @@ void Game::Update() {
             delete tempActor; // calls actor destructor
         }
     }
-    
+}
+
+void Game::GenerateOutput() {
+    // clear screen
+    mRenderer->ClearScreen();
+
+    // loop over sprites and draw them
+    for (SpriteComponent* sprite : mSprites) {
+        if (sprite->IsVisible()) {
+            mRenderer->DrawSprite(sprite);
+        }
+    }
+
     // render present
     mRenderer->Present();
 }
 
-void Game::GenerateOutput() {
+void Game::End() {
+    UnloadData();
+    SDL_Quit();
 }
 
-void Game::End() {
-    mRenderer->Destroy();
-    SDL_Quit();
+void Game::UnloadData() {
+    // destructor kills window and renderer
+    delete mRenderer;
+
+    // delete all actors
+    // erase takes out of vector and deletes
+    if (!mActors.empty()) {
+        mActors.erase(mActors.begin(), mActors.end());
+    }
+
+    // destroy textures
+    for (auto it = mTextureCache.begin(); it != mTextureCache.end(); it++) {
+        SDL_DestroyTexture(it->second);
+    }
+
+    mTextureCache.clear();
 }
 
 // add/remove actors
@@ -135,3 +166,20 @@ void Game::RemoveSprite(SpriteComponent* sprite) {
         mSprites.erase(it);
     }
 }
+
+// load texture
+SDL_Texture* Game::GetTexture(const char* fileName) {
+    std::unordered_map<std::string, SDL_Texture*>::const_iterator got = mTextureCache.find(fileName);
+    // get it from map
+    if (got != mTextureCache.end())
+        return got->second;
+    // or load it in
+    else {
+        SDL_Surface* tempSurface = IMG_Load(fileName);
+        SDL_Texture* tempTexture = SDL_CreateTextureFromSurface(mRenderer->GetSDLRenderer(), tempSurface);
+        SDL_FreeSurface(tempSurface);
+        mTextureCache.emplace(fileName, tempTexture);
+        return tempTexture;
+    }
+}
+

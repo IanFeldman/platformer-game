@@ -6,6 +6,7 @@ Player::Player(Game* game)
 	:Actor(game)
 {
     mSpriteComponent = new SpriteComponent(this, 100);
+    mSpriteComponent->SetTexture(mGame->GetTexture("boid.png"));
 	//mPlayerMove = new PlayerMove(this);
 }
 

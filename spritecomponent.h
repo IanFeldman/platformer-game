@@ -10,9 +10,11 @@ public:
 	~SpriteComponent();
 
 	// Draw this sprite
-	virtual void Draw(SDL_Renderer* renderer);
+	//virtual void Draw(Renderer* renderer);
 	// Set the texture to draw for this sprite
 	virtual void SetTexture(SDL_Texture* texture);
+
+    SDL_Texture* GetTexture() { return mTexture; }
 
 	// Get the draw order for this sprite
 	int GetDrawOrder() const { return mDrawOrder; }
