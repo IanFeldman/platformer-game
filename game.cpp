@@ -30,39 +30,20 @@ void Game::LoadData() {
 
 void Game::RunLoop() {
     while (mRunning){
-        ProcessUpdate();
+        // poll for exit
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case SDL_QUIT:
+                    mRunning = false;
+                    break;
+                default:
+                    break;
+            }
+        }
+
         Update();
         GenerateOutput();
-    }
-}
-
-void Game::ProcessUpdate() {
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-        switch (event.type) {
-            case SDL_QUIT:
-                mRunning = false;
-                break;
-            case SDL_KEYDOWN:
-                switch (event.key.keysym.sym) {
-                    case SDLK_ESCAPE:
-                        mRunning = false;
-                        break;
-                    case SDLK_d:
-                        break;
-                    case SDLK_a:
-                        break;
-                    case SDLK_w:
-                        break;
-                    case SDLK_s:
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            default:
-                break;
-        }
     }
 }
 

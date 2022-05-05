@@ -13,12 +13,10 @@ public:
     bool Initialize();
     void LoadData();
     void RunLoop();
-    void ProcessUpdate();
     void Update();
     void GenerateOutput();
     void End();
     void UnloadData();
-
 
     // adds actor to actor list here
     void AddActor(class Actor* actor);
