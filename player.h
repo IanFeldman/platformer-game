@@ -11,7 +11,8 @@ public:
     Vector2 GetInput();
 
 private:
-    class SpriteComponent* mSpriteComponent;
+    //class SpriteComponent* mSpriteComponent;
+    class AnimatedSprite* mASprite;
     float mMoveSpeed;
 };
 

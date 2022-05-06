@@ -4,6 +4,7 @@
 #include "renderer.h"
 #include "spritecomponent.h"
 #include <SDL2/SDL.h>
+#include <iostream>
 
 Game::Game()
     :mRunning(true)
@@ -26,6 +27,7 @@ bool Game::Initialize() {
 void Game::LoadData() {
     mPlayer = new Player(this);
     mPlayer->SetPosition(Vector2(400, 250));
+    mPlayer->SetScale(1.0f);
 }
 
 void Game::RunLoop() {
