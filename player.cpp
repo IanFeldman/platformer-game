@@ -5,7 +5,7 @@
 
 Player::Player(Game* game)
 	:Actor(game)
-    ,mMoveSpeed(500.0f)
+    ,mMoveSpeed(300.0f)
 {
     //mSpriteComponent = new SpriteComponent(this, 100);
     //mSpriteComponent->SetTexture(mGame->GetTexture("boid.png"));
@@ -58,15 +58,26 @@ Vector2 Player::GetInput() {
     bool left = keyboardState[SDL_SCANCODE_A];
     bool right = keyboardState[SDL_SCANCODE_D];
     if (left && !right) {
+        // set velocity
         vel.x -= mMoveSpeed;
-        mASprite->SetAnimation("run-left");
+        // set animation
+        if (mASprite->GetAnimation() != "run-left") {
+            mASprite->SetAnimation("run-left", false);
+        }
     }
     else if (!left && right) {
+        // set vel
         vel.x += mMoveSpeed;
-        mASprite->SetAnimation("run-right");
+        // set animation
+        if (mASprite->GetAnimation() != "run-right") {
+            mASprite->SetAnimation("run-right", false);
+        }
     }
     else {
-        mASprite->SetAnimation("idle");
+        // set animation
+        if (mASprite->GetAnimation() != "idle") {
+            mASprite->SetAnimation("idle", false);
+        }
     }
 
     return vel;

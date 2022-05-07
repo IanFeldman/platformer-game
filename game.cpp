@@ -27,7 +27,7 @@ bool Game::Initialize() {
 void Game::LoadData() {
     mPlayer = new Player(this);
     mPlayer->SetPosition(Vector2(400, 250));
-    mPlayer->SetScale(4.0f);
+    mPlayer->SetScale(3.0f);
 }
 
 void Game::RunLoop() {

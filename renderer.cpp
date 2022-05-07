@@ -52,15 +52,22 @@ void Renderer::Present() {
 }
 
 void Renderer::DrawSprite(SpriteComponent* sprite) {
-    // todo:
+    float ownerPosX = sprite->GetOwner()->GetPosition().x;
+    float ownerPosY = sprite->GetOwner()->GetPosition().y;
+    float texW = sprite->GetTexWidth();
+    float texH = sprite->GetTexHeight();
+
     // check if sprite is out of screen
+    if (ownerPosX + texW / 2.0f < 0 || ownerPosX - texW / 2.0f > mWindowSize.x) {
+        return;
+    }
 
     // called by game in process update
     SDL_Rect r;
-    r.w = static_cast<int>(sprite->GetTexWidth() * sprite->GetOwner()->GetScale());
-    r.h = static_cast<int>(sprite->GetTexHeight() * sprite->GetOwner()->GetScale());
-    r.x = static_cast<int>(sprite->GetOwner()->GetPosition().x - r.w / 2);
-    r.y = static_cast<int>(sprite->GetOwner()->GetPosition().y - r.h / 2);
+    r.w = static_cast<int>(texW * sprite->GetOwner()->GetScale());
+    r.h = static_cast<int>(texH * sprite->GetOwner()->GetScale());
+    r.x = static_cast<int>(ownerPosX - r.w / 2);
+    r.y = static_cast<int>(ownerPosY - r.h / 2);
 
     SDL_RenderCopy(mSDLRenderer, sprite->GetTexture(), nullptr, &r);
 }

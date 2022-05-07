@@ -16,6 +16,8 @@ public:
 
     void SetAnimation(const std::string& name, bool resetTimer = false);
 
+    const std::string& GetAnimation() { return mAnimName; }
+
     void SetIsPaused(bool pause) { mIsPaused = pause; }
 
     void SetFPS(float fps) { mAnimFPS = fps; }
