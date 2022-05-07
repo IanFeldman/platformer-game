@@ -22,8 +22,6 @@ public:
 
     void SetFPS(float fps) { mAnimFPS = fps; }
 
-    const std::string& GetAnimName() const { return mAnimName; }
-
 protected:
 	// Map of animation name to vector of textures corresponding to the animation
 	std::unordered_map<std::string, std::vector<SDL_Texture*>> mAnims;

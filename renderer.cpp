@@ -56,16 +56,17 @@ void Renderer::DrawSprite(SpriteComponent* sprite) {
     float ownerPosY = sprite->GetOwner()->GetPosition().y;
     float texW = sprite->GetTexWidth();
     float texH = sprite->GetTexHeight();
+    float scale = sprite->GetOwner()->GetScale();
 
     // check if sprite is out of screen
-    if (ownerPosX + texW / 2.0f < 0 || ownerPosX - texW / 2.0f > mWindowSize.x) {
+    if (ownerPosX + (texW / 2.0f) * scale < 0 || ownerPosX - (texW / 2.0f) * scale > mWindowSize.x) {
         return;
     }
 
     // called by game in process update
     SDL_Rect r;
-    r.w = static_cast<int>(texW * sprite->GetOwner()->GetScale());
-    r.h = static_cast<int>(texH * sprite->GetOwner()->GetScale());
+    r.w = static_cast<int>(texW * scale);
+    r.h = static_cast<int>(texH * scale);
     r.x = static_cast<int>(ownerPosX - r.w / 2);
     r.y = static_cast<int>(ownerPosY - r.h / 2);
 
