@@ -10,18 +10,37 @@ Player::Player(Game* game)
     //mSpriteComponent = new SpriteComponent(this, 100);
     //mSpriteComponent->SetTexture(mGame->GetTexture("boid.png"));
     mASprite = new AnimatedSprite(this, 100);
-    mASprite->SetFPS(5.0f);
+    mASprite->SetFPS(10.0f);
     // idle
 	std::vector<SDL_Texture*> idleAnim{
 		mGame->GetTexture("assets/player/idle/idle1.png"),
+		mGame->GetTexture("assets/player/idle/idle1.png"),
+		mGame->GetTexture("assets/player/idle/idle2.png"),
 		mGame->GetTexture("assets/player/idle/idle2.png"),
 		mGame->GetTexture("assets/player/idle/idle3.png"),
+		mGame->GetTexture("assets/player/idle/idle3.png"),
 		mGame->GetTexture("assets/player/idle/idle4.png"),
-		mGame->GetTexture("assets/player/idle/idle5.png"),
-		mGame->GetTexture("assets/player/idle/idle6.png"),
-		mGame->GetTexture("assets/player/idle/idle7.png"),
-		mGame->GetTexture("assets/player/idle/idle8.png")};
+		mGame->GetTexture("assets/player/idle/idle4.png")};
     mASprite->AddAnimation("idle", idleAnim);
+    // run right
+	std::vector<SDL_Texture*> runRAnim{
+		mGame->GetTexture("assets/player/run-r/run-r1.png"),
+		mGame->GetTexture("assets/player/run-r/run-r2.png"),
+		mGame->GetTexture("assets/player/run-r/run-r3.png"),
+		mGame->GetTexture("assets/player/run-r/run-r4.png"),
+		mGame->GetTexture("assets/player/run-r/run-r5.png"),
+		mGame->GetTexture("assets/player/run-r/run-r6.png")};
+    mASprite->AddAnimation("run-right", runRAnim);
+    // run left 
+	std::vector<SDL_Texture*> runLAnim{
+		mGame->GetTexture("assets/player/run-l/run-l1.png"),
+		mGame->GetTexture("assets/player/run-l/run-l2.png"),
+		mGame->GetTexture("assets/player/run-l/run-l3.png"),
+		mGame->GetTexture("assets/player/run-l/run-l4.png"),
+		mGame->GetTexture("assets/player/run-l/run-l5.png"),
+		mGame->GetTexture("assets/player/run-l/run-l6.png")};
+    mASprite->AddAnimation("run-left", runLAnim);
+    // set anim
     mASprite->SetAnimation("idle");
 	mASprite->SetIsPaused(false);
 }
@@ -40,9 +59,14 @@ Vector2 Player::GetInput() {
     bool right = keyboardState[SDL_SCANCODE_D];
     if (left && !right) {
         vel.x -= mMoveSpeed;
+        mASprite->SetAnimation("run-left");
     }
     else if (!left && right) {
         vel.x += mMoveSpeed;
+        mASprite->SetAnimation("run-right");
+    }
+    else {
+        mASprite->SetAnimation("idle");
     }
 
     return vel;
