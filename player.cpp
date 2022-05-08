@@ -7,8 +7,8 @@ Player::Player(Game* game)
 	:Actor(game)
     ,mMoveSpeed(300.0f)
     ,mAirMoveSpeed(100.0f)
-    ,mJumpSpeed(200.0f)
-    ,mFallAccel(500.0f)
+    ,mJumpSpeed(800.0f)
+    ,mFallAccel(1500.0f)
 {
     //mSpriteComponent = new SpriteComponent(this, 100);
     //mSpriteComponent->SetTexture(mGame->GetTexture("boid.png"));
@@ -43,6 +43,14 @@ Player::Player(Game* game)
 		mGame->GetTexture("assets/player/run-l/run-l5.png"),
 		mGame->GetTexture("assets/player/run-l/run-l6.png")};
     mASprite->AddAnimation("run-left", runLAnim);
+    // squat
+	std::vector<SDL_Texture*> squatAnim{
+		mGame->GetTexture("assets/player/squat/squat1.png")};
+    mASprite->AddAnimation("squat", squatAnim);
+    // jump
+	std::vector<SDL_Texture*> jumpAnim{
+		mGame->GetTexture("assets/player/jump/jump1.png")};
+    mASprite->AddAnimation("jump", jumpAnim);
     // set anim
     mASprite->SetAnimation("idle");
 	mASprite->SetIsPaused(false);
@@ -55,12 +63,12 @@ void Player::OnUpdate(float deltaTime)
     // updates velocity
     GetInput(); 
     // add accel
-    if (mPosition.y < 200.0f) {
+    if (mPosition.y < 400.0f) {
         mVelocity.y += mFallAccel * deltaTime;
     }
     // set position if below 0
-    if (mPosition.y > 200.0f) {
-        mPosition.y = 200.0f;
+    if (mPosition.y > 400.0f) {
+        mPosition.y = 400.0f;
     }
     
     mPosition += mVelocity * deltaTime;
@@ -80,7 +88,7 @@ void Player::GetInput() {
             // squat
             if (space) {
                 mVelocity = Vector2(0.0f, 0.0f);
-                mASprite->SetAnimation("idle"); // change to squat
+                mASprite->SetAnimation("squat"); 
                 mMoveState = MoveState::Squat;
             }
             // run right
@@ -99,14 +107,14 @@ void Player::GetInput() {
         case MoveState::Squat:
             // jump
             if (!space) {
-                mVelocity.y = -mJumpSpeed; // change to jump speed
-                mASprite->SetAnimation("idle"); // change to jump
+                mVelocity.y = -mJumpSpeed; 
+                mASprite->SetAnimation("jump");
                 mMoveState = MoveState::Jump;
             }
             break;
         case MoveState::Jump:
-            if (mPosition.y > 199.0f) {
-                mPosition.y = 200.0f;
+            if (mPosition.y > 399.0f) {
+                mPosition.y = 400.0f;
                 mMoveState = MoveState::Idle;
                 mASprite->SetAnimation("idle");
             }
@@ -124,7 +132,7 @@ void Player::GetInput() {
             // squat
             if (space) {
                 mVelocity = Vector2(0.0f, 0.0f);
-                mASprite->SetAnimation("idle"); // change to squat
+                mASprite->SetAnimation("squat");
                 mMoveState = MoveState::Squat;
             }
             // run left
@@ -144,7 +152,7 @@ void Player::GetInput() {
             // squat
             if (space) {
                 mVelocity = Vector2(0.0f, 0.0f);
-                mASprite->SetAnimation("idle"); // change to squat
+                mASprite->SetAnimation("squat");
                 mMoveState = MoveState::Squat;
             }
             // run right
