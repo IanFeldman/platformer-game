@@ -1,5 +1,6 @@
 #include "actor.h"
 #include "game.h"
+#include "obstacle.h"
 #include "player.h"
 #include "renderer.h"
 #include "spritecomponent.h"
@@ -27,6 +28,10 @@ void Game::LoadData() {
     mPlayer = new Player(this);
     mPlayer->SetPosition(Vector2(400, 250));
     mPlayer->SetScale(5.0f);
+
+    Obstacle* obs = new Obstacle(this);
+    obs->SetPosition(Vector2(400, 200));
+    obs->SetScale(2.0f);
 }
 
 void Game::RunLoop() {

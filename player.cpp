@@ -12,7 +12,7 @@ Player::Player(Game* game)
     ,mFallAccel(1500.0f)
 {
     // create collision component
-    mCC = new CollisionComponent(this, 32, 32);
+    mCC = new CollisionComponent(this, 16, 30);
 
     //mSpriteComponent = new SpriteComponent(this, 100);
     //mSpriteComponent->SetTexture(mGame->GetTexture("boid.png"));
