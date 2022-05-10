@@ -25,5 +25,6 @@ private:
     MoveState mMoveState;
     Vector2 mVelocity;
     float mMoveSpeed, mAirMoveSpeed, mJumpSpeed, mFallAccel;
+    bool mGrounded;
 };
 

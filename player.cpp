@@ -10,6 +10,7 @@ Player::Player(Game* game)
     ,mAirMoveSpeed(100.0f)
     ,mJumpSpeed(800.0f)
     ,mFallAccel(1500.0f)
+    ,mGrounded(false)
 {
     // create collision component
     mCC = new CollisionComponent(this, 16, 30);
@@ -67,17 +68,24 @@ void Player::OnUpdate(float deltaTime)
     // updates velocity
     GetInput(); 
     // add accel
-    if (mPosition.y < 400.0f) {
+    if (!mGrounded) {
         mVelocity.y += mFallAccel * deltaTime;
-    }
-    // set position if below 0
-    if (mPosition.y > 400.0f) {
-        mPosition.y = 400.0f;
     }
     
     mPosition += mVelocity * deltaTime;
     // offset for collisions
-    mPosition += mCC->GetMinOffset();
+    Vector2 offset = mCC->GetMinOffset();
+    mPosition += offset; 
+
+    // if the collision pushed player up, then he is standing on an obstacle
+    if (offset.y < 0) {
+        mGrounded = true;
+        mVelocity.y = 0;
+    }
+    // make player fall of ledges
+    else if (offset.y == 0.0f) {
+        mGrounded = false;
+    }
 }
 
 void Player::GetInput() {
@@ -88,7 +96,6 @@ void Player::GetInput() {
     bool right = keyboardState[SDL_SCANCODE_D];
     bool space = keyboardState[SDL_SCANCODE_SPACE];
 
-    // strat 2: go through each state
     switch(mMoveState) {
         case MoveState::Idle:
             // squat
@@ -116,11 +123,11 @@ void Player::GetInput() {
                 mVelocity.y = -mJumpSpeed; 
                 mASprite->SetAnimation("jump");
                 mMoveState = MoveState::Jump;
+                mGrounded = false;
             }
             break;
         case MoveState::Jump:
-            if (mPosition.y > 399.0f) {
-                mPosition.y = 400.0f;
+            if (mGrounded) {
                 mMoveState = MoveState::Idle;
                 mASprite->SetAnimation("idle");
             }

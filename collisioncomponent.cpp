@@ -37,36 +37,25 @@ Vector2 CollisionComponent::Collide(CollisionComponent* otherCC) {
     // check collision
     int thisWidth = mColliderWidth * mOwner->GetScale();
     int thisHeight = mColliderHeight * mOwner->GetScale();
-    int thisMinX = mOwner->GetPosition().x - thisWidth / 2;
-    int thisMaxX = thisMinX + thisWidth;
-    int thisMinY = mOwner->GetPosition().y - thisHeight / 2;
-    int thisMaxY = thisMinY + thisHeight;
+    int thisX = mOwner->GetPosition().x;
+    int thisY = mOwner->GetPosition().y;
 
     int otherWidth = otherCC->GetWidth() * otherCC->GetOwner()->GetScale();
     int otherHeight = otherCC->GetHeight() * otherCC->GetOwner()->GetScale();
-    int otherMinX = otherCC->GetOwner()->GetPosition().x - otherWidth / 2;
-    int otherMaxX = otherMinX + otherWidth;
-    int otherMinY = otherCC->GetOwner()->GetPosition().y - otherHeight / 2;
-    int otherMaxY = otherMinY + otherHeight;
+    int otherX = otherCC->GetOwner()->GetPosition().x;
+    int otherY = otherCC->GetOwner()->GetPosition().y;
+    
+    int deltaX = thisX - otherX;
+    int expectedDistX = thisWidth / 2 + otherWidth / 2;
 
-    bool overlapX = (otherMinX >= thisMinX && otherMinX <= thisMaxX) || (otherMaxX >= thisMinX && otherMaxX <= thisMaxX);
-    bool overlapY = (otherMinY >= thisMinY && otherMinY <= thisMaxY) || (otherMaxY >= thisMinY && otherMaxY <= thisMaxY);
-    bool collision = overlapX && overlapY;
+    int deltaY = thisY - otherY;
+    int expectedDistY = thisHeight / 2 + otherHeight / 2;
+
+    bool collision = std::abs(deltaX) <= expectedDistX && std::abs(deltaY) <= expectedDistY;
 
     if (collision) {
-        int moveX = 0;
-        int moveY = 0;
-
-        // diff in centers
-        int deltaX = mOwner->GetPosition().x - otherCC->GetOwner()->GetPosition().x;
-        int expectedDistX = thisWidth / 2 + otherWidth / 2;
-        moveX = expectedDistX - std::abs(deltaX);
-
-        // same for y
-        int deltaY = mOwner->GetPosition().y - otherCC->GetOwner()->GetPosition().y;
-        int expectedDistY = thisHeight / 2 + otherHeight / 2;
-        moveY = expectedDistY - std::abs(deltaY);
-
+        int moveX = expectedDistX - std::abs(deltaX);
+        int moveY = expectedDistY - std::abs(deltaY);
         // x move is smaller. default to x when equal
         if (moveX <= moveY) {
             if (deltaX < 0) {
@@ -80,8 +69,6 @@ Vector2 CollisionComponent::Collide(CollisionComponent* otherCC) {
         }
         return Vector2(0.0f, moveY);
     }
-
-    // no overlap if no collision
     return Vector2(0.0f, 0.0f);
 }
 

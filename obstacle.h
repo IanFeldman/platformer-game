@@ -4,7 +4,7 @@
 class Obstacle : public Actor
 {
 public:
-    Obstacle(class Game* game);
+    Obstacle(class Game* game, int width, int height);
 
 private:
     class SpriteComponent* mSpriteComponent;

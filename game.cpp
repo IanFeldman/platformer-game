@@ -26,12 +26,14 @@ bool Game::Initialize() {
 
 void Game::LoadData() {
     mPlayer = new Player(this);
-    mPlayer->SetPosition(Vector2(400, 250));
+    mPlayer->SetPosition(Vector2(400, 0));
     mPlayer->SetScale(5.0f);
 
-    Obstacle* obs = new Obstacle(this);
+    Obstacle* ground = new Obstacle(this, 400, 32);
+    ground->SetPosition(Vector2(400, 450));
+
+    Obstacle* obs = new Obstacle(this, 32, 32);
     obs->SetPosition(Vector2(200, 400));
-    obs->SetScale(2.0f);
 }
 
 void Game::RunLoop() {
