@@ -21,6 +21,7 @@ public:
 private:
     //class SpriteComponent* mSpriteComponent;
     class AnimatedSprite* mASprite;
+    class CollisionComponent* mCC;
     MoveState mMoveState;
     Vector2 mVelocity;
     float mMoveSpeed, mAirMoveSpeed, mJumpSpeed, mFallAccel;

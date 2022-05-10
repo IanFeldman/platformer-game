@@ -5,6 +5,8 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+// CC DEBUG
+#include "collisioncomponent.h"
 
 class Game {
     
@@ -22,6 +24,9 @@ public:
     void AddActor(class Actor* actor);
     // removes actor from actor list here
     void RemoveActor(class Actor* actor);
+    // get list of actors
+    std::vector<class Actor*> GetActors() { return mActors; }
+    
     // add sprite
     void AddSprite(class SpriteComponent* sprite);
     void RemoveSprite(class SpriteComponent* sprite);
@@ -37,6 +42,9 @@ protected:
     std::vector<class Actor*> mActors;
     std::vector<class SpriteComponent*> mSprites;
     std::unordered_map<std::string, SDL_Texture*> mTextureCache;
+
+    // collision component debug
+    std::vector<class CollisionComponent*> mColliders;
 
     class Player* mPlayer; // write class so I dont have to #include player.h
 };

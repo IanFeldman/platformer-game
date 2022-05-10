@@ -16,6 +16,9 @@ public:
     void DrawSprite(SpriteComponent* sprite);
     void DrawTexture(SDL_Texture* texture, int width, int height, int xPos, int yPos);
 
+    // CC DEBUG
+    void DrawRectangle(SDL_Rect rect);
+
     // getters/setters
     SDL_Renderer* GetSDLRenderer() { return mSDLRenderer; }
     SDL_Point GetWindowSize() { return mWindowSize; }

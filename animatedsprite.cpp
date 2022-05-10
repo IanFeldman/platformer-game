@@ -1,6 +1,5 @@
 #include "animatedsprite.h"
 #include "actor.h"
-#include <iostream>
 
 AnimatedSprite::AnimatedSprite(Actor* owner, int drawOrder)
 	:SpriteComponent(owner, drawOrder)

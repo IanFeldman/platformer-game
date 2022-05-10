@@ -1,4 +1,5 @@
 #include "animatedsprite.h"
+#include "collisioncomponent.h"
 #include "game.h"
 #include "player.h"
 #include "math.h"
@@ -10,6 +11,9 @@ Player::Player(Game* game)
     ,mJumpSpeed(800.0f)
     ,mFallAccel(1500.0f)
 {
+    // create collision component
+    mCC = new CollisionComponent(this, 32, 32);
+
     //mSpriteComponent = new SpriteComponent(this, 100);
     //mSpriteComponent->SetTexture(mGame->GetTexture("boid.png"));
     mASprite = new AnimatedSprite(this, 100);

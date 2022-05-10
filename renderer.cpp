@@ -87,3 +87,9 @@ void Renderer::DrawTexture(SDL_Texture* texture, int width, int height, int xPos
 }
 */
 
+// CC DEBUG
+void Renderer::DrawRectangle(SDL_Rect rect) {
+    SDL_SetRenderDrawColor(mSDLRenderer, 0, 255, 0, 255);
+    SDL_RenderDrawRect(mSDLRenderer, &rect);
+}
+

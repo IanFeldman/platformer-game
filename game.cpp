@@ -4,7 +4,6 @@
 #include "renderer.h"
 #include "spritecomponent.h"
 #include <SDL2/SDL.h>
-#include <iostream>
 
 Game::Game()
     :mRunning(true)
@@ -86,6 +85,14 @@ void Game::GenerateOutput() {
     for (SpriteComponent* sprite : mSprites) {
         if (sprite->IsVisible()) {
             mRenderer->DrawSprite(sprite);
+        }
+    }
+
+    // CC DEBUG
+    for (Actor* a : mActors) {
+        CollisionComponent* cc = a->GetComponent<CollisionComponent>();
+        if (cc != nullptr) {
+            cc->Debug();
         }
     }
 
