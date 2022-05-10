@@ -76,6 +76,8 @@ void Player::OnUpdate(float deltaTime)
     }
     
     mPosition += mVelocity * deltaTime;
+    // offset for collisions
+    mPosition += mCC->GetMinOffset();
 }
 
 void Player::GetInput() {
@@ -175,58 +177,5 @@ void Player::GetInput() {
         default:
             break;
     }
-
-    // strat 1: go through each input
-    /*
-    if (space) {
-        if (mMoveState != MoveState::Squat && mMoveState != MoveState::Jump) {
-            // set velocity
-            mVelocity = Vector2(0.0f, 0.0f);
-            // set animation
-            mASprite->SetAnimation("idle"); // change to squat
-            // set state
-            mMoveState = MoveState::Squat;
-        }
-    }
-    else if (!space) {
-        if (mMoveState == MoveState::Squat) {
-            // set vel
-            mVelocity.y = 100.0f;
-            // set anim
-            mASprite->SetAnimation("idle"); // jump anim
-            mMoveState = MoveState::Jump;
-        }
-    }
-    else if (left && !right) {
-        if (mMoveState != MoveState::RunLeft) {
-            // set velocity
-            mVelocity.x = -mMoveSpeed;
-            // set animation
-            mASprite->SetAnimation("run-left");
-            // set state
-            mMoveState = MoveState::RunLeft;
-        }
-    }
-    else if (!left && right) {
-        if (mMoveState != MoveState::RunRight) {
-            // set velocity
-            mVelocity.x = mMoveSpeed;
-            // set animation
-            mASprite->SetAnimation("run-right");
-            // set state
-            mMoveState = MoveState::RunRight;
-        }
-    }
-    else {
-        if (mMoveState != MoveState::Idle) {
-            // set velocity
-            mVelocity = Vector2(0.0f, 0.0f);
-            // set animation
-            mASprite->SetAnimation("idle");
-            // set state
-            mMoveState = MoveState::Idle;
-        }
-    }
-    */
 }
 

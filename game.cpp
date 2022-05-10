@@ -30,7 +30,7 @@ void Game::LoadData() {
     mPlayer->SetScale(5.0f);
 
     Obstacle* obs = new Obstacle(this);
-    obs->SetPosition(Vector2(400, 200));
+    obs->SetPosition(Vector2(200, 400));
     obs->SetScale(2.0f);
 }
 
