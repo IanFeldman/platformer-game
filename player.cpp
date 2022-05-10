@@ -130,6 +130,7 @@ void Player::GetInput() {
             if (mGrounded) {
                 mMoveState = MoveState::Idle;
                 mASprite->SetAnimation("idle");
+                mVelocity.x = 0.0f;
             }
             // change direction a little bit in air
             //  right
