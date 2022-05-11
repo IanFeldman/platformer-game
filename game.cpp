@@ -1,4 +1,5 @@
 #include "actor.h"
+#include "math.h"
 #include "game.h"
 #include "obstacle.h"
 #include "player.h"
@@ -8,12 +9,13 @@
 
 Game::Game()
     :mRunning(true)
+    ,mCamera(Vector2(0.0f, 0.0f))
 {
 }
 
 bool Game::Initialize() {
     // create renderer
-    mRenderer = new Renderer(); // new creates the object and returns reference to it
+    mRenderer = new Renderer(this); // new creates the object and returns reference to it
     if (!mRenderer->Create())
         return false;
     

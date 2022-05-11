@@ -72,17 +72,27 @@ void Player::OnUpdate(float deltaTime)
         mVelocity.y += mFallAccel * deltaTime;
     }
     
+    // update position
     mPosition += mVelocity * deltaTime;
     // offset for collisions
     Vector2 offset = mCC->GetMinOffset();
     mPosition += offset; 
 
+    // update camera
+    // lineary interpolate camera position
+    float fac = 0.2f; // from  0 to 1
+    Vector2 camPos = (1.0f - fac) * mGame->GetCamera() + fac * mPosition;
+    //mGame->SetCamera(mPosition);
+    mGame->SetCamera(camPos);
+
+    // update mGrounded
     // if the collision pushed player up, then he is standing on an obstacle
     if (offset.y < 0) {
         mGrounded = true;
         mVelocity.y = 0;
     }
     // make player fall of ledges
+    // don't know exactly how this works
     else if (offset.y == 0.0f) {
         mGrounded = false;
     }

@@ -6,7 +6,7 @@
 class Renderer {
 
 public:
-    Renderer();
+    Renderer(class Game* game);
     ~Renderer();
 
     bool Create();
@@ -24,6 +24,7 @@ public:
     SDL_Point GetWindowSize() { return mWindowSize; }
 
 protected:
+    class Game* mGame;
     SDL_Point mWindowSize;
     SDL_Window* mWindow;
     SDL_Renderer* mSDLRenderer;

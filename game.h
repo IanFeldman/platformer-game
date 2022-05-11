@@ -1,4 +1,5 @@
 #pragma once
+#include "math.h"
 #include "renderer.h"
 #include "spritecomponent.h"
 #include <SDL2/SDL.h>
@@ -35,6 +36,9 @@ public:
 
     SDL_Texture* GetTexture(const char* fileName);
 
+    Vector2 GetCamera() { return mCamera; }
+    void SetCamera(Vector2 pos) { mCamera = pos; }
+
 protected:
     bool mRunning;
     int mPrevTime;
@@ -47,4 +51,6 @@ protected:
     std::vector<class CollisionComponent*> mColliders;
 
     class Player* mPlayer; // write class so I dont have to #include player.h
+
+    Vector2 mCamera;
 };

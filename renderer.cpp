@@ -1,12 +1,14 @@
 #include "actor.h"
+#include "game.h"
 #include "renderer.h"
 #include "spritecomponent.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
 // constructor
-Renderer::Renderer()
-    :mWindowSize((SDL_Point){800, 500})
+Renderer::Renderer(Game* game)
+    :mGame(game)
+    ,mWindowSize((SDL_Point){800, 500})
 {
 }
 
@@ -52,8 +54,12 @@ void Renderer::Present() {
 }
 
 void Renderer::DrawSprite(SpriteComponent* sprite) {
-    float ownerPosX = sprite->GetOwner()->GetPosition().x;
-    float ownerPosY = sprite->GetOwner()->GetPosition().y;
+    // cam worldspace
+    float camX = mGame->GetCamera().x;
+    float camY = mGame->GetCamera().y;
+    // owner world pos -> cam pos
+    float ownerPosX = sprite->GetOwner()->GetPosition().x - camX + mWindowSize.x / 2; // relative to cam position
+    float ownerPosY = sprite->GetOwner()->GetPosition().y - camY + mWindowSize.y / 2; // relative to cam position
     float texW = sprite->GetTexWidth();
     float texH = sprite->GetTexHeight();
     float scale = sprite->GetOwner()->GetScale();
@@ -73,22 +79,14 @@ void Renderer::DrawSprite(SpriteComponent* sprite) {
     SDL_RenderCopy(mSDLRenderer, sprite->GetTexture(), nullptr, &r);
 }
 
-// old
-/*
-void Renderer::DrawTexture(SDL_Texture* texture, int width, int height, int xPos, int yPos) {
-    // check if out of screen
-    SDL_Rect r;
-    r.w = width;
-    r.h = height;
-    r.x = xPos;
-    r.y = yPos;
-
-    SDL_RenderCopy(mSDLRenderer, texture, nullptr, &r);
-}
-*/
-
 // CC DEBUG
 void Renderer::DrawRectangle(SDL_Rect rect) {
+    // cam worldspace
+    float camX = mGame->GetCamera().x;
+    float camY = mGame->GetCamera().y;
+    // convert to cam space
+    rect.x += -camX + mWindowSize.x / 2;
+    rect.y += -camY + mWindowSize.y / 2;
     SDL_SetRenderDrawColor(mSDLRenderer, 0, 255, 0, 255);
     SDL_RenderDrawRect(mSDLRenderer, &rect);
 }
