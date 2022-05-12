@@ -80,8 +80,12 @@ void Player::OnUpdate(float deltaTime)
 
     // update camera
     // lineary interpolate camera position
-    float fac = 0.2f; // from  0 to 1
+    float fac = 0.15f; // from  0 to 1
     Vector2 camPos = (1.0f - fac) * mGame->GetCamera() + fac * mPosition;
+    // snap cam to player when close enough
+    if (std::abs(camPos.x - mPosition.x) + std::abs(camPos.y - mPosition.y) < 1.0f) {
+        camPos = mPosition;
+    }
     //mGame->SetCamera(mPosition);
     mGame->SetCamera(camPos);
 
